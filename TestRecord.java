@@ -1,6 +1,3 @@
-
-
-
 import java.io.IOException;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -9,20 +6,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
     public class TestRecord {
         public static void main(String[] args) {
-            Record record = new Record("melodie2.txt");
+            Record record = new Record("melodie_test.txt");
+
+            // Vérification si le fichier existe déjà
             record.checkError();
 
-            // Ajout de notes à l'enregistrement
+            // Ajout de notes avec différents instruments
             record.addNote("Piano", new Note("Do", 0.5));
-            record.addNote("Piano", new Note("Ré", 0.5));
-            record.addNote("Piano", new Note("Mi", 0.5));
-            record.addNote("Piano", new Note("Fa", 0.5));
+            record.addNote("Violon", new Note("Ré", 0.75));
+            record.addNote("Xylophone", new Note("Mi", 1.0));
+            record.addNote("Orgue", new Note("Fa", 1.25));
 
             // Sauvegarde de la mélodie
             record.close();
+
+            System.out.println("Test d'enregistrement terminé !");
         }
     }
 
@@ -33,23 +33,20 @@ import java.util.List;
 class Record {
     private String fileName;
     private List<String> playedNotes;
-    private Partition partition;
 
     public Record(String fileName) {
         this.fileName = fileName;
         this.playedNotes = new ArrayList<>();
-        this.partition = new Partition();
+        checkError();
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public void addNote(String instrument, Note note) {
         String noteRecord = "Instrument: " + instrument + ", Note: " + note.toString();
         playedNotes.add(noteRecord);
-        partition.ajouterNote(note);
-    }
-
-    public void emptyingRecord() {
-        playedNotes.clear();
-        partition = new Partition();
     }
 
     public void close() {
@@ -64,15 +61,12 @@ class Record {
         }
     }
 
-    public Partition getPartition() {
-        return partition;
-    }
-
     public void checkError() {
-
         File file = new File(fileName);
         if (file.exists()) {
             System.out.println("Warning! Un fichier avec ce nom existe déjà : " + fileName);
         }
+
+
     }
 }
