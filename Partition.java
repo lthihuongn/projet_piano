@@ -17,4 +17,12 @@ public class Partition {
             System.out.println(note);
         }
     }
+
+    public void jouer() {
+        MusicPlayer player = new MusicPlayer();
+        for (Note note : notes) {
+            player.jouerNote(note.getMidi(), note.getDureeMs());
+        }
+        player.fermer();
+    }
 }

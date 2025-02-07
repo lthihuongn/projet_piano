@@ -6,6 +6,7 @@ public class PartitionLoader {
     public static Partition chargerPartition(String cheminFichier) {
         Partition partition = new Partition();
 
+
         try (BufferedReader br = new BufferedReader(new FileReader(cheminFichier))) {
             String ligne;
             while ((ligne = br.readLine()) != null) {

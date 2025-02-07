@@ -1,28 +1,24 @@
 public class Note {
     private String nom;
-    private int frequence;
-    private double duree;
+    private int midi;
+    private double duree; // en secondes
 
     public Note(String nom, double duree) {
         this.nom = nom;
-        this.frequence = FrequenceNotes.getFrequence(nom);
+        this.midi = FrequenceNotes.getMidi(nom);
         this.duree = duree;
     }
 
-    public String getNom() {
-        return nom;
+    public int getMidi() {
+        return midi;
     }
 
-    public int getFrequence() {
-        return frequence;
-    }
-
-    public double getDuree() {
-        return duree;
+    public int getDureeMs() {
+        return (int) (duree * 1000);
     }
 
     @Override
     public String toString() {
-        return nom + " (" + frequence + " Hz) - " + duree + "s";
+        return nom + " (MIDI: " + midi + ") - " + duree + "s";
     }
 }

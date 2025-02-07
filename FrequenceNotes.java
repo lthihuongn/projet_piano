@@ -2,21 +2,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FrequenceNotes {
-    private static final Map<String, Integer> notesFrequences = new HashMap<>();
+    private static final Map<String, Integer> notesMIDI = new HashMap<>();
 
     static {
-        notesFrequences.put("A#1", 58);
-        notesFrequences.put("C2", 65);
-        notesFrequences.put("F2", 87);
-        notesFrequences.put("A#2", 117);
-        notesFrequences.put("A2", 110);
-        notesFrequences.put("G2", 98);
-        notesFrequences.put("F1", 44);
-        notesFrequences.put("C1", 33);
-        // Ajoutez ici toutes les notes nécessaires...
+        // Liste des notes
+        String[] notes = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
+
+        // Génération des notes de C0 à B8 avec MIDI correct
+        for (int octave = 0; octave <= 8; octave++) {
+            for (int i = 0; i < notes.length; i++) {
+                int midiValue = (octave * 12) + i + 12; // Décalage de 12 car MIDI commence à C0=12
+                String noteName = notes[i] + octave;
+                notesMIDI.put(noteName, midiValue);
+            }
+        }
     }
 
-    public static int getFrequence(String note) {
-        return notesFrequences.getOrDefault(note, 0);
+    // Fonction pour récupérer la valeur MIDI d'une note
+    public static int getMidi(String note) {
+        return notesMIDI.getOrDefault(note.toUpperCase(), -1);
     }
 }
