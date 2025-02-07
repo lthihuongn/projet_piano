@@ -1,10 +1,12 @@
 public class Application {
     private MusicPlayer player;
     private String instrumentActuel;
+    private Record recordDB;
 
     public Application() {
         player = new MusicPlayer();
         instrumentActuel = "Piano"; // Instrument par défaut
+        recordDB = new Record();
     }
 
     public void choisirInstrument(String instrument) {
@@ -12,14 +14,24 @@ public class Application {
         player.changerInstrument(instrument);
     }
 
-    public void jouerNote(String note) {
-        int midi = FrequenceNotes.getMidi(note);
-        if (midi > 0) {
-            player.jouerNote(midi, 500); // Durée par défaut : 500ms
-        }
+    public void commencerEnregistrement() {
+        recordDB.commencerEnregistrement();
     }
 
-    public void fermer() {
-        player.fermer();
+    public void arreterEnregistrement(String nomFichier) {
+        recordDB.arreterEnregistrement(nomFichier);
+    }
+
+    public void jouerNote(String note) {
+        long startTime = System.currentTimeMillis();
+        int midi = FrequenceNotes.getMidi(note);
+
+        if (midi > 0) {
+            player.jouerNote(midi, 500);
+        }
+
+        long duree = System.currentTimeMillis() - startTime; // Temps appuyé
+
+        recordDB.ajouterNote(instrumentActuel, note, duree / 1000.0);
     }
 }
